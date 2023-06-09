@@ -1,0 +1,20 @@
+{
+  "name": "ui-integration-tests",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "cy:run": "npx cypress run",
+    "cy:open": "npx cypress open"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "cypress": "^12.14.0",
+    "typescript": "^5.1.3"
+  },
+  "dependencies": {
+    "node": "^20.2.0"
+  }
+}

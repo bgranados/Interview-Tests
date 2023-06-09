@@ -1,1 +1,3 @@
 node_modules
+UI Integration Tests/cypress/screenshots
+UI Integration Tests/cypress/videos
