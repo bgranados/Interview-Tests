@@ -25,7 +25,6 @@ describe('User on Amazon', () => {
 
         cy.get('#add-to-cart-button').should('be.visible').click({force:true});
 
-        //cy.find link that contains cart
         //act
         //assert
 
@@ -41,17 +40,15 @@ describe('User on Amazon', () => {
     /**
      https://stackoverflow.com/questions/38376701/jquery-if-body-contains-exact-string-then-make-variable-true
      */
-
-        cy.get('body').then(($body) => {
-            var protectionPlanPopup = $body.filter(function() {
-                return $(this).text().trim() ==="Accident Protection Plan"
-            }).length >0;
-            if(protectionPlanPopup){
-                console.log('found protection plan popup.')
-                cy.contains('No Thanks').click();
-            }
-        })
-       cy.get('a').contains('nav cart').click({force:true}); 
+    cy.get('body').filter(':contains("Accident Protection Plan")').then((res) => {
+        console.log( "found", res.length)
+        if(res.length > 0){
+            cy.contains('No thanks', {timeout: 15000}).should('exist')
+           // cy.contains('No thanks').click({force: true});
+           cy.get('span').contains('No thanks').click({force:true})
+        }
+    })
+       cy.get('a').contains('cart').click({force:true}); 
        cy.contains('Shopping Cart');
        cy.contains('Kindle Paperwhite');
     })

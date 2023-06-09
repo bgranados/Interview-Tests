@@ -1,6 +1,10 @@
+const { v4: uuidv4 } = require('uuid');
+
 const { expect } = require("chai");
 
 const token = "bee47dc252fdb871aa7b3899e4cd9dff1ab2607891298226c0a69eedfeb5a651";
+
+uuidv4(); // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
 
 const headers={
     'Authorization': `Bearer ${token}`
@@ -16,10 +20,8 @@ describe('User API ', ()=>{
 
     it('GET can get user list without header', async ()=>{
         await fetch('https://gorest.co.in/public/v2/users').then(async response => {
-            console.log(response.status),
             expect(response.status).to.be.equal(200);
             var responseJson = await response.json()          
-            console.log('response body is ', JSON.stringify(responseJson))
             expect(responseJson[0].id).to.exist;  //return at least one user
         })
     })
@@ -45,10 +47,11 @@ describe('User API ', ()=>{
 
 
     // Create new user
+    const userEmailGuid = uuidv4();
     const testUser = {
         'name':'TestUser', 
         'gender':'male', 
-        'email':'bg@15ce.com', 
+        'email':`bg+${userEmailGuid}@cd.com`, 
         'status':'active'
     }
 
@@ -60,10 +63,9 @@ describe('User API ', ()=>{
     }
 
     // TBD: this test would work exactly 1x, need to randomize email
-    it('Create User, creates a user with POST, returns 200', async () => {
+    it('Create User, creates a user with POST, returns 201', async () => {
         await fetch(usersApi, {headers: headersToAddContent, method: 'POST', body: JSON.stringify(testUser)}).then(async response => {
             var responseJson = await response.json()               
-            console.log(responseJson)
             expect(response.status).to.be.equal(201);              
         })
     })
@@ -79,7 +81,6 @@ describe('User API ', ()=>{
         await fetch(usersApi, {headers: headersToAddContent, method: 'POST', body: JSON.stringify(testUserMissingEmail)})
             .then(async response => {
                 var responseJson = await response.json();
-                console.log(responseJson[0])
                 expect(responseJson[0]).to.have.property('message')
                 expect(responseJson[0].message).contains("can't be blank")
                 expect(responseJson[0]).to.have.property('field')
