@@ -42,4 +42,27 @@ describe('User API ', ()=>{
             expect(response.status).to.be.equal(404)
         })
     })
+
+
+    const testUser = {
+        'name':'TestUser', 
+        'gender':'male', 
+        'email':'bg@15ce.com', 
+        'status':'active'
+    }
+
+    var headersToAddContent =
+     {
+        "Authorization": `Bearer ${token}`,
+        "Accept":"application/json", 
+        "Content-Type":"application/json"
+    }
+
+    it('Create User, creates a user with POST', async () => {
+        await fetch(usersApi, {headers: headersToAdd, method: 'POST', body: JSON.stringify(testUser)}).then(async response => {
+            var responseJson = await response.json()               
+            console.log(responseJson)
+            expect(response.status).to.be.equal(201);              
+        })
+    })
 })
