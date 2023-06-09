@@ -1,0 +1,17 @@
+Interview Withme> npm run test
+
+> interview-withme@1.0.0 test C:\Users\flame\Desktop\Interview Withme
+> mocha
+
+
+
+  User API
+    ✔ GET can get user list without header (1217ms)
+    ✔ Create User, missing header with POST, returns 401 (529ms)
+    ✔ Create User, page not found for method PUT, returns 404 (407ms)
+    ✔ Create User, page not found for method DELETE, returns 404 (401ms)
+    ✔ Create User, creates a user with POST, returns 201 (808ms)
+    ✔ Create user, POST fails to create user with no email, returns 422 (627ms)
+
+
+  6 passing (4s)
