@@ -44,6 +44,7 @@ describe('User API ', ()=>{
     })
 
 
+    // Create new user
     const testUser = {
         'name':'TestUser', 
         'gender':'male', 
@@ -58,11 +59,32 @@ describe('User API ', ()=>{
         "Content-Type":"application/json"
     }
 
-    it('Create User, creates a user with POST', async () => {
-        await fetch(usersApi, {headers: headersToAdd, method: 'POST', body: JSON.stringify(testUser)}).then(async response => {
+    // TBD: this test would work exactly 1x
+    it.skip('Create User, creates a user with POST', async () => {
+        await fetch(usersApi, {headers: headersToAddContent, method: 'POST', body: JSON.stringify(testUser)}).then(async response => {
             var responseJson = await response.json()               
             console.log(responseJson)
             expect(response.status).to.be.equal(201);              
+        })
+    })
+
+    it('Create user, fails to create user with no email, returns 422', async () => {
+        const testUserMissingEmail = {
+            'name':'TestUser', 
+            'gender':'male', 
+            'email':'', 
+            'status':'active'
+        }
+
+        await fetch(usersApi, {headers: headersToAddContent, method: 'POST', body: JSON.stringify(testUserMissingEmail)})
+            .then(async response => {
+                var responseJson = await response.json();
+                console.log(responseJson[0])
+                expect(responseJson[0]).to.have.property('message')
+                expect(responseJson[0].message).contains("can't be blank")
+                expect(responseJson[0]).to.have.property('field')
+                expect(responseJson[0].field).contains('email')
+                expect(response.status).to.be.equal(422)
         })
     })
 })
