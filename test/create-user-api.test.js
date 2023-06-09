@@ -59,8 +59,8 @@ describe('User API ', ()=>{
         "Content-Type":"application/json"
     }
 
-    // TBD: this test would work exactly 1x
-    it.skip('Create User, creates a user with POST', async () => {
+    // TBD: this test would work exactly 1x, need to randomize email
+    it('Create User, creates a user with POST, returns 200', async () => {
         await fetch(usersApi, {headers: headersToAddContent, method: 'POST', body: JSON.stringify(testUser)}).then(async response => {
             var responseJson = await response.json()               
             console.log(responseJson)
@@ -68,7 +68,7 @@ describe('User API ', ()=>{
         })
     })
 
-    it('Create user, fails to create user with no email, returns 422', async () => {
+    it('Create user, POST fails to create user with no email, returns 422', async () => {
         const testUserMissingEmail = {
             'name':'TestUser', 
             'gender':'male', 
