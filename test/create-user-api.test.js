@@ -20,10 +20,8 @@ describe('User API ', ()=>{
 
     it('GET can get user list without header', async ()=>{
         await fetch('https://gorest.co.in/public/v2/users').then(async response => {
-            console.log(response.status),
             expect(response.status).to.be.equal(200);
             var responseJson = await response.json()          
-            console.log('response body is ', JSON.stringify(responseJson))
             expect(responseJson[0].id).to.exist;  //return at least one user
         })
     })
@@ -83,7 +81,6 @@ describe('User API ', ()=>{
         await fetch(usersApi, {headers: headersToAddContent, method: 'POST', body: JSON.stringify(testUserMissingEmail)})
             .then(async response => {
                 var responseJson = await response.json();
-                console.log(responseJson[0])
                 expect(responseJson[0]).to.have.property('message')
                 expect(responseJson[0].message).contains("can't be blank")
                 expect(responseJson[0]).to.have.property('field')
