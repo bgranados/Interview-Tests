@@ -43,12 +43,13 @@ describe('User on Amazon', () => {
     cy.get('body').filter(':contains("Accident Protection Plan")').then((res) => {
         console.log( "found", res.length)
         if(res.length > 0){
-            cy.contains('No thanks', {timeout: 15000}).should('exist')
-           // cy.contains('No thanks').click({force: true});
-           cy.get('span').contains('No thanks').click({force:true})
+           // Would prefer to look just for visibility of No thanks, but it is covered by input.
+           // Workaround: look for close button, then click No thanks.
+            cy.get('.a-button-close', {timeout: 15000}).should('be.visible')
+           cy.contains('No thanks').click()
         }
     })
-       cy.get('a').contains('cart').click({force:true}); 
+       cy.get('.nav-cart').should('be.enabled').click(); 
        cy.contains('Shopping Cart');
        cy.contains('Kindle Paperwhite');
     })
