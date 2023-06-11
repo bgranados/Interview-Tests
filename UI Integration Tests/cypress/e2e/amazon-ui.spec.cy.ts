@@ -40,16 +40,28 @@ describe('User on Amazon', () => {
     /**
      https://stackoverflow.com/questions/38376701/jquery-if-body-contains-exact-string-then-make-variable-true
      */
-    cy.get('body').filter(':contains("Accident Protection Plan")').then((res) => {
-        console.log( "found", res.length)
-        if(res.length > 0){
-            cy.contains('No thanks', {timeout: 15000}).should('exist')
-           // cy.contains('No thanks').click({force: true});
-           cy.get('span').contains('No thanks').click({force:true})
+
+     //Cypress conditional https://docs.cypress.io/guides/core-concepts/conditional-testing
+     // Best practice is to know when the popup would appear
+     // Current state of Amazon UI seems that popup will not appear on subsequent add to cart
+     cy.get('body').then(($body) => {
+        if($body.text().includes('Accident Protection Plan')){
+            console.log('found protection plan');
+            if($body.text().includes("No thanks")){
+                
+            // Would prefer to look just for visibility of No thanks, but it is covered by input.
+            // Workaround: look for close button, then click.
+            // This area can be improved
+            cy.get('.a-button-close', {timeout: 20000}).should('be.enabled').click();
+            //cy.get('.a-button-close').should(click();
+            //cy.contains('No thanks').should('be.visible');
+            cy.contains('No thanks').click({force: true});
+            }
         }
-    })
-       cy.get('a').contains('cart').click({force:true}); 
-       cy.contains('Shopping Cart');
+     })
+
+       cy.get('#nav-cart', {timeout: 10000}).click(); 
+       cy.contains('Shopping Cart', {timeout: 10000});
        cy.contains('Kindle Paperwhite');
     })
 
