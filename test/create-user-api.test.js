@@ -1,6 +1,7 @@
 const { v4: uuidv4 } = require('uuid');
 
 const { expect } = require("chai");
+const exp = require('constants');
 
 const token = "bee47dc252fdb871aa7b3899e4cd9dff1ab2607891298226c0a69eedfeb5a651";
 
@@ -172,4 +173,48 @@ describe('User API ', ()=>{
             expect(respJson.email).to.equal(newUser.email)
         })
     }).timeout(10000);
+
+    it('can PATCH update user, returns 200 and user updated object', async() => {
+         // arrange
+         var newUser = createNewUser();
+         await addUser(newUser);
+         var userId = await getUserIdByEmail(newUser.email)
+
+        // update email
+        newUser.email=`bg+patch${uuidv4()}@test.com`;
+        console.log('updating email to ', newUser.email)
+
+         //act
+        await fetch(`${usersApi}/${userId}`, {headers: authenticatedHeaders, method: 'PATCH', body: JSON.stringify(newUser)})
+        .then(async (response) => {
+            var respJson = await response.json();
+            expect(response.status).to.equal(200);
+
+            // assert
+            expect(respJson.email).to.equal(newUser.email)
+            expect(respJson.id).to.equal(userId);
+        })
+    })
+
+    it('can PUT update user, returns 200 and user updated object', async() => {
+        // arrange
+        var newUser = createNewUser();
+        await addUser(newUser);
+        var userId = await getUserIdByEmail(newUser.email)
+
+       // update email
+       newUser.email=`bg+put${uuidv4()}@test.com`;
+       console.log('updating email to ', newUser.email)
+
+        //act
+       await fetch(`${usersApi}/${userId}`, {headers: authenticatedHeaders, method: 'PUT', body: JSON.stringify(newUser)})
+       .then(async (response) => {
+           var respJson = await response.json();
+           console.log('response for PUT is ', respJson)
+           expect(response.status).to.equal(200);
+
+           // assert
+           expect(respJson.email).to.equal(newUser.email)
+       })
+   })
 })
