@@ -32,7 +32,7 @@ function createNewUser(){
 // https://stackoverflow.com/questions/61229242/how-to-filter-json-object-javascript
 async function getUserIdByEmail(email){
     var userId= 0;
-    await fetch('https://gorest.co.in/public/v2/users', {headers: authenticatedHeaders, method: 'GET'}).then(async (response) => {
+    await fetch('https://gorest.co.in/public/v2/users', {headers: authenticatedHeaders, method: 'GET'}).then(async response => {
        
         expect(response.status).to.be.equal(200);
         var responseJson = await response.json()          
@@ -45,7 +45,7 @@ async function getUserIdByEmail(email){
         console.log("looking for user with email ", email)
         console.log('user result is ', userResult[0].id)
         userId = userResult[0].id
-        resolve();
+     //   resolve(response);
     })
     return userId;
 }
@@ -129,32 +129,22 @@ describe('User API ', ()=>{
         // arrange
 
         var testUserDelete = createNewUser()
-
-        console.log('get user id by email')
         var userIdToDelete = "0";
-
-
-        await fetch(usersApi, {headers: authenticatedHeaders, method: 'POST', body: JSON.stringify(testUserDelete)}).then(async (response)=>{
+        await fetch(usersApi, {headers: authenticatedHeaders, method: 'POST', body: JSON.stringify(testUserDelete)})
+        .then(async response => {
             var responseJson = await response.json()               
-            expect(response.status).to.be.equal(201);
-            console.log('created user with email ', testUserDelete.email)
-            //expect(createdUserObject.id).to.exist;
-            
-            //var createdUserId = createdUserObject.id;
-            //console.log('created user id ', createdUserId)
-    
-            userIdToDelete = await getUserIdByEmail(testUserDelete.email);
-            console.log('user id to delete, filtered', userIdToDelete)
+            expect(response.status).to.be.equal(201);              
         })
+        userIdToDelete = await getUserIdByEmail(testUserDelete.email);
+        console.log('user id to delete, filtered', userIdToDelete)
         
-       
         // act
-      /*  await fetch(`${usersApi}/${userIdToDelete}`, {headers: authenticatedHeaders, method: 'DELETE'}).then(async (response) =>{
-            expect(response.status).to.be(204)
-        })*/
-
-
-    })
+        await fetch(`${usersApi}/${userIdToDelete}`, {headers: authenticatedHeaders, method: 'DELETE'})
+        .then(async (response) =>{
+            // assert
+            expect(response.status).to.equal(204)
+        })
+    }).timeout(10000)  // test takes longer than mocha default 2 seconds
 
     it('tries to DELETE user by non existent id, returns 404', async () => {
         var userIdToDelete  = '0000'
