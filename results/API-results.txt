@@ -1,0 +1,75 @@
+PS C:\Users\flame\Desktop\Interview Withme> npm run test
+
+> interview-withme@1.0.0 test C:\Users\flame\Desktop\Interview Withme
+> mocha
+
+
+
+  User API
+    ✔ GET can get user list without header (1225ms)
+    ✔ Create User, missing header with POST, returns 401 (294ms)
+    ✔ Create User, page not found for method PUT, returns 404 (310ms)
+    ✔ Create User, page not found for method DELETE, returns 404 (303ms)
+    ✔ Create User, creates a user with POST, returns 201 (380ms)
+    ✔ Create user, POST fails to create user with no email, returns 422 (370ms)
+filtered results [
+  {
+    id: 2795351,
+    name: 'TestUser',
+    email: 'bg+f607f948-5f86-40dc-b848-599f9a5a2fee@cd.com',
+    gender: 'male',
+    status: 'active'
+  }
+]
+looking for user with email  bg+f607f948-5f86-40dc-b848-599f9a5a2fee@cd.com
+user result is  2795351
+user id to delete, filtered 2795351
+    ✔ can DELETE user, returns 204 - no content (1720ms)
+    ✔ tries to DELETE user by non existent id, returns 404 (339ms)
+filtered results [
+  {
+    id: 2795354,
+    name: 'TestUser',
+    email: 'bg+20efff2e-aef1-4acf-a299-1d90d2f2ac90@cd.com',
+    gender: 'male',
+    status: 'active'
+  }
+]
+looking for user with email  bg+20efff2e-aef1-4acf-a299-1d90d2f2ac90@cd.com
+user result is  2795354
+    ✔ can GET user, by ID, returns 200 and user object (1167ms)
+filtered results [
+  {
+    id: 2795355,
+    name: 'TestUser',
+    email: 'bg+ad1189ed-8393-406b-a316-15911be2dab6@cd.com',
+    gender: 'male',
+    status: 'active'
+  }
+]
+looking for user with email  bg+ad1189ed-8393-406b-a316-15911be2dab6@cd.com
+user result is  2795355
+updating email to  bg+patchaeb16a8f-97f4-4b19-a50d-25dcb9a220e2@test.com
+    ✔ can PATCH update user, returns 200 and user updated object (1101ms)
+filtered results [
+  {
+    id: 2795357,
+    name: 'TestUser',
+    email: 'bg+0f274d42-b250-40ba-af1e-fe2777435e54@cd.com',
+    gender: 'male',
+    status: 'active'
+]
+looking for user with email  bg+0f274d42-b250-40ba-af1e-fe2777435e54@cd.com
+user result is  2795357
+updating email to  bg+put4f879915-eca4-4920-bd5a-a31d5280b93c@test.com
+response for PUT is  {
+  email: 'bg+put4f879915-eca4-4920-bd5a-a31d5280b93c@test.com',
+  name: 'TestUser',
+  gender: 'male',
+  status: 'active',
+  id: 2795357
+}
+    ✔ can PUT update user, returns 200 and user updated object (1156ms)
+
+
+  11 passing (8s)
