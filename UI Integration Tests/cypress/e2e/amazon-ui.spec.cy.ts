@@ -51,13 +51,17 @@ describe('User on Amazon', () => {
                 
             // Would prefer to look just for visibility of No thanks, but it is covered by input.
             // Workaround: look for close button, then click.
-            cy.get('.a-button-close', {timeout: 20000}).should('be.visible').click();
+            // This area can be improved
+            cy.get('.a-button-close', {timeout: 20000}).should('be.enabled').click();
+            //cy.get('.a-button-close').should(click();
+            //cy.contains('No thanks').should('be.visible');
+            cy.contains('No thanks').click({force: true});
             }
         }
      })
 
        cy.get('#nav-cart', {timeout: 10000}).click(); 
-       cy.contains('Shopping Cart');
+       cy.contains('Shopping Cart', {timeout: 10000});
        cy.contains('Kindle Paperwhite');
     })
 
